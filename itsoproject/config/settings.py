@@ -39,14 +39,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'djoser',
+    'rest_framework.authtoken',
     'corsheaders',
-    'fileupload',
+    # 'fileupload',
     'accounts',
-
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
+
+
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,14 +61,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",    
 ]
+
 
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'authentication', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +83,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -118,6 +129,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+CORS_ALLOWED_ALL_ORIGINS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -135,3 +147,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
+# my djoser
+DJOSER = {
+    "SEND_CONFIRMATION_EMAIL": True,
+    'LOGIN_FIELD': 'username',
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    "PASSWORD_RESET_CONFIRM_URL": 'reset_password/{uid}/{token}',
+    'SERIALIZERS': {
+        'user_create': 'accounts.serializers.CustomUserCreateSerializer',
+        'user': 'accounts.serializers.CustomUserSerializer',
+        'current_user': 'accounts.serializers.CustomUserSerializer',
+    },
+    # 'EMAIL' : {
+    #     'confirmation': 'accounts.email.ConfirmationEmail',
+    #     'password_reset': 'accounts.email.CustomPasswordResetEmail',
+    #     'password_changed_confirmation': 'accounts.email.PasswordChangedConfirmationEmail'        
+    # },    
+    # 'DEFAULT_FROM_EMAIL': 'eTCMFBukidnon@gmail.com', 
+}
+
+
+AUTH_USER_MODEL = "accounts.User"
