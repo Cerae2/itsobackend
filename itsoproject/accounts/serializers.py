@@ -74,6 +74,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
     middle_name = models.CharField(max_length=50, null=True, blank=True)
     first_name = serializers.CharField(max_length=255, write_only=True)
     last_name = serializers.CharField(max_length=255, write_only=True)
+    birth_date = serializers.DateField(format='%d-%m-%Y')
 
     class Meta:
         model = User
@@ -99,7 +100,6 @@ class CustomUserCreateSerializer(UserCreateSerializer):
             'middle_name' : validated_data.get('middle_name', ''), 
             'last_name' : validated_data.get('last_name', ''),
             'user_role': validated_data.get('user_role', ''),
-            'position': validated_data.get('position', ''),
             'contact_number': validated_data.get('contact_number', ''),
             'school_campus': validated_data.get('school_campus', ''),
             'department_type': validated_data.get('department_type', ''),
@@ -110,10 +110,11 @@ class CustomUserCreateSerializer(UserCreateSerializer):
     def validate(self, attrs):
         return attrs
     
-    def generate_password(self, last_name):
-        birthday_string = self.birth_date.strftime('%m%d%Y')
-        default_password = f"{self.last_name.lower()}@{birthday_string}"
+    def generate_password(self, last_name, birth_date):
+        birthday_string = birth_date.strftime('%m%d%Y')
+        default_password = f"{last_name.lower()}@{birthday_string}"
         return default_password
+
 
 
     def create(self, validated_data):
@@ -123,7 +124,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
             self.fail("cannot_create_user")
 
         role = validated_data.get("user_role")  # Use validated_data here
-        if role == "ADMIN":
+        if role == "admin":
             user.is_staff = True
             user.is_superuser = True
             user.save(update_fields=["is_staff", "is_superuser"])
@@ -134,7 +135,9 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         with transaction.atomic():
             user_data = self.clean_user_data(validated_data)
             last_name = validated_data.get("last_name", "")
-            password = self.generate_password(last_name)
+            birth_date = validated_data.get("birth_date", "")
+            
+            password = self.generate_password(last_name, birth_date)
 
             user_data["password"] = password
 

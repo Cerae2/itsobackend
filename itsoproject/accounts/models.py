@@ -120,7 +120,7 @@ class User(AbstractUser):
     ]
 
     middle_name = models.CharField(max_length=50, null=True, blank=True)
-    birth_date = models.DateField()
+    birth_date = models.DateField(null=True, blank=True)
     contact_number = models.CharField(max_length=12, blank=True)  # Allow blank
     school_campus = models.CharField(max_length=50, choices=SCHOOL_CAMPUS_CHOICES, default='ustp_cagayan_de_oro')
     department_type = models.CharField(max_length=50, choices=COLLEGE_CHOICES, default='information_technology')

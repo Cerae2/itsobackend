@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-$*xde7shzh@ix7g_$oym98b4u)c6v^*o1n+1@j@1tdm094wv6u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -135,6 +135,18 @@ CORS_ALLOWED_ALL_ORIGINS = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+# email server
+# ilisda sa inyo email 
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '061df45eb6ebea'
+EMAIL_HOST_PASSWORD = '98494b8a33eec4'
+EMAIL_PORT = '2525'
+
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
