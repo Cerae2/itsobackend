@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'fileupload',
     'accounts',
+    'utilitymodelsform',
+    'industrialdesignforms',
 
 ]
 
