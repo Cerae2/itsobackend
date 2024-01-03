@@ -11,7 +11,6 @@ class UtilityFile(models.Model):
     file2 = models.FileField(upload_to='industrialdesignfiles/', blank=True, null=True, validators=[validate_pdf])
     file3 = models.FileField(upload_to='industrialdesignfiles/', blank=True, null=True, validators=[validate_pdf])
     file4 = models.FileField(upload_to='industrialdesignfiles/', blank=True, null=True, validators=[validate_pdf])
-    file5 = models.FileField(upload_to='industrialdesignfiles/', blank=True, null=True, validators=[validate_pdf])
     
     def clean(self):
         # Ensure at least one file (file1 to file4) is provided
