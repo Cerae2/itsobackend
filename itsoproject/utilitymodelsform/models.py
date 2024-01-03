@@ -7,10 +7,10 @@ def validate_pdf(value):
 
 class UtilityFile(models.Model):
     title = models.CharField(max_length=255)
-    file1 = models.FileField(upload_to='industrialdesignfiles/', blank=True, null=True, validators=[validate_pdf])
-    file2 = models.FileField(upload_to='industrialdesignfiles/', blank=True, null=True, validators=[validate_pdf])
-    file3 = models.FileField(upload_to='industrialdesignfiles/', blank=True, null=True, validators=[validate_pdf])
-    file4 = models.FileField(upload_to='industrialdesignfiles/', blank=True, null=True, validators=[validate_pdf])
+    file1 = models.FileField(upload_to='utilitymodelfiles/', blank=True, null=True, validators=[validate_pdf])
+    file2 = models.FileField(upload_to='utilitymodelfiles/', blank=True, null=True, validators=[validate_pdf])
+    file3 = models.FileField(upload_to='utilitymodelfiles/', blank=True, null=True, validators=[validate_pdf])
+    file4 = models.FileField(upload_to='utilitymodelfiles/', blank=True, null=True, validators=[validate_pdf])
     
     def clean(self):
         # Ensure at least one file (file1 to file4) is provided
