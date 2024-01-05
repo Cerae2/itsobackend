@@ -44,6 +44,11 @@ INSTALLED_APPS = [
     'corsheaders',
     # 'fileupload',
     'accounts',
+    'copyrightform',
+    'industrialform',
+    'patentform',
+    'trademarkform',
+    'utilityform',
 ]
 
 REST_FRAMEWORK = {
