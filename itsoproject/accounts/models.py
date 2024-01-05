@@ -1,9 +1,7 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
-from django.contrib.auth.hashers import make_password
 
-class CustomUser(AbstractUser):
-    # Constants for different colleges and schools
+class User(AbstractUser):
     COLLEGE_CHOICES = [
         ('engineering_architecture', 'College of Engineering and Architecture'),
         ('information_technology', 'College of Information Technology and Computing'),
@@ -33,58 +31,9 @@ class CustomUser(AbstractUser):
         ('ustp_villanueva', 'USTP Villanueva'),
     ]
 
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='custom_user_groups',
-        blank=True,
-        help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
-        verbose_name='groups',
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='custom_user_permissions',
-        blank=True,
-        help_text='Specific permissions for this user.',
-        verbose_name='user permissions',
-    )
-
-    first_name = models.CharField(max_length=255)
-    middle_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    email = models.EmailField(max_length=200, unique=True)
-    birth_date = models.DateField()
+    middle_name = models.CharField(max_length=50, null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
     contact_number = models.CharField(max_length=12, blank=True)  # Allow blank
     school_campus = models.CharField(max_length=50, choices=SCHOOL_CAMPUS_CHOICES, default='ustp_cagayan_de_oro')
     department_type = models.CharField(max_length=50, choices=COLLEGE_CHOICES, default='information_technology')
-    user_role = models.CharField(max_length=20, choices=USER_ROLE_CHOICES, default='client')
-
-    def generate_default_password(self):
-        birthday_string = self.birth_date.strftime('%m%d%Y')
-        default_password = f"{self.last_name.lower()}@{birthday_string}"
-        return default_password
-
-    def save(self, *args, **kwargs):
-        if not self.pk:  # If this is a new instance
-            default_password = self.generate_default_password()
-            self.password = make_password(default_password)
-        super().save(*args, **kwargs)
-
-    def is_admin(self):
-        return self.user_role == 'admin'
-
-    def is_employee(self):
-        return self.user_role == 'employee'
-
-    def is_client(self):
-        return self.user_role == 'client'
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-    
-    username=None
-
-    USERNAME_FIELD = 'email'
-    EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    USERNAME_REQUIRED = False
+    user_role = models.CharField(max_length=20, choices=USER_ROLE_CHOICES, default='admin')
