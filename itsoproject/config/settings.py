@@ -44,17 +44,11 @@ INSTALLED_APPS = [
     'corsheaders',
     # 'fileupload',
     'accounts',
-<<<<<<< HEAD:itsoproject/itsoproject/settings.py
-    'utilitymodelsform',
-    'industrialdesignforms',
-
-=======
     'copyrightform',
     'industrialform',
     'patentform',
     'trademarkform',
     'utilityform',
->>>>>>> revised:itsoproject/config/settings.py
 ]
 
 REST_FRAMEWORK = {
