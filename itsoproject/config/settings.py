@@ -142,11 +142,9 @@ STATIC_URL = 'static/'
 # email server
 # ilisda sa inyo email 
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = '061df45eb6ebea'
-EMAIL_HOST_PASSWORD = '98494b8a33eec4'
+EMAIL_HOST_USER = '13482496005af4'
+EMAIL_HOST_PASSWORD = 'e89005bf8a9397'
 EMAIL_PORT = '2525'
-
-
 
 
 
