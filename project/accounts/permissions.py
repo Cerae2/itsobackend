@@ -10,8 +10,3 @@ class ClientPermission(permissions.BasePermission):
         user = request.user
         return user.is_authenticated and (user.role == 'client')
     
-class EmployeePermission(permissions.BasePermission):
-    def has_permission(self, request, view):
-        user = request.user
-        return user.is_authenticated and (user.role == 'employee')
-    

@@ -44,7 +44,8 @@ class CustomUserCreateSerializer(UserCreateSerializer):
     middle_name = models.CharField(max_length=50, null=True, blank=True)
     first_name = serializers.CharField(max_length=255, write_only=True)
     last_name = serializers.CharField(max_length=255, write_only=True)
-    birth_date = serializers.DateField(format='%d-%m-%Y')
+    birth_date = serializers.DateField(input_formats=['%Y-%m-%d'])
+
 
     class Meta:
         model = User
@@ -81,7 +82,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         return attrs
     
     def generate_password(self, last_name, birth_date):
-        birthday_string = birth_date.strftime('%m%d%Y')
+        birthday_string = birth_date.strftime('%Y%m%d')
         default_password = f"{last_name.lower()}@{birthday_string}"
         return default_password
 

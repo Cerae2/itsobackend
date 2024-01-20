@@ -9,8 +9,8 @@ class PatentUpload(models.Model):
         ('rejected', 'Rejected'),
     ]
 
-    invention_title = models.CharField(max_length=255)
-    abstract = models.TextField()
+    invention_title = models.CharField(max_length=255, null=True)
+    abstract = models.TextField(max_length=300, null=True)
     patent_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
     Patent_file_1 = models.FileField(upload_to='patentforms/', null=True, blank=True)

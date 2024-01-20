@@ -171,13 +171,15 @@ DJOSER = {
         'user': 'accounts.serializers.CustomUserSerializer',
         'current_user': 'accounts.serializers.CustomUserSerializer',
     },
+    'DATE_FORMAT': 'Y-m-d',  # Add this line
+}
+
     # 'EMAIL' : {
     #     'confirmation': 'accounts.email.ConfirmationEmail',
     #     'password_reset': 'accounts.email.CustomPasswordResetEmail',
     #     'password_changed_confirmation': 'accounts.email.PasswordChangedConfirmationEmail'        
     # },    
     # 'DEFAULT_FROM_EMAIL': 'eTCMFBukidnon@gmail.com', 
-}
 
 
 AUTH_USER_MODEL = "accounts.User"
