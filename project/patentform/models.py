@@ -5,7 +5,7 @@ class PatentUpload(models.Model):
     STATUS_CHOICES = [
         ('approved', 'Approved'),
         ('pending', 'Pending'),
-        ('under_review', 'Under Review')
+        ('under_review', 'Under Review'),
         ('rejected', 'Rejected'),
     ]
 
