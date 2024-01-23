@@ -42,13 +42,8 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework.authtoken',
     'corsheaders',
-    # 'fileupload',
     'accounts',
-    'copyrightform',
-    'industrialform',
-    'patentform',
-    'trademarkform',
-    'utilityform',
+    'uploadforms',
 ]
 
 REST_FRAMEWORK = {
