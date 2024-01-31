@@ -38,3 +38,7 @@ class User(AbstractUser):
     school_campus = models.CharField(max_length=50, choices=SCHOOL_CAMPUS_CHOICES, default='ustp_cagayan_de_oro')
     department_type = models.CharField(max_length=50, choices=COLLEGE_CHOICES, default='information_technology')
     user_role = models.CharField(max_length=20, choices=USER_ROLE_CHOICES, default='admin')
+
+
+    def __str__(self):
+        return {self.id}

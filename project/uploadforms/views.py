@@ -1,17 +1,32 @@
-from .models import UploadForms
-from .serializers import UploadFormSerializers
+from .models import UploadForms, Feedback, FileUploads
+from .serializers import UploadFormSerializers, FeedbackSerializer, FileUploadsSerializer
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
-class UploadFormAPIView(generics.CreateAPIView):
+
+class UploadFormListCreateAPIView(ListCreateAPIView):
     queryset = UploadForms.objects.all()
-    serializer_class = UploadFormSerializers
+    serializer_class = UploadFormSerializers    
 
-
-class CustomFileListView(generics.ListAPIView):
+class UploadFormRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = UploadForms.objects.all()
-    serializer_class = UploadFormSerializers
-    permission_classes = [IsAuthenticated]
+    serializer_class = UploadFormSerializers    
 
-    def filter_queryset(self, queryset):
-        return queryset.filter(user = self.request.user.id)
+
+class FeedbackListCreateAPIView(ListCreateAPIView):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer    
+
+class FeedbackRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer    
+
+class FileUploadListCreateAPIView(ListCreateAPIView):
+    queryset = FileUploads.objects.all()
+    serializer_class = FileUploadsSerializer    
+
+class FileUploadRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = FileUploads.objects.all()
+    serializer_class = FileUploadsSerializer
+
