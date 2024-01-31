@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'accounts',
-    'uploadforms',
     'feedbackstatus',
+    'formupload',
 ]
 
 REST_FRAMEWORK = {
