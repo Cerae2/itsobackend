@@ -1,6 +1,9 @@
 from django.db import models
 from django.conf import settings
 
+class Publication(models.Model):
+    file1 = models.FileField(upload_to='uploads/', blank=False, null=False)
+
 
 class UploadForms(models.Model):
     FORM_CHOICES = [
@@ -35,13 +38,11 @@ class UploadForms(models.Model):
 
 
 class FileUploads(models.Model):
+    # Assuming you have a model named UploadForms, adjust as needed
     upload_form = models.ForeignKey(UploadForms, on_delete=models.CASCADE, related_name='file_uploads')
-    file1 = models.FileField(upload_to='uploads/', blank=False, null=False)
-    file2 = models.FileField(upload_to='uploads/', blank=False, null=False)
-    file3 = models.FileField(upload_to='uploads/', blank=False, null=False)
-    file4 = models.FileField(upload_to='uploads/', blank=False, null=False)
+    files = models.ManyToManyField(Publication, related_name='file_uploads')
     created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
