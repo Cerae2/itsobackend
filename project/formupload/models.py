@@ -1,10 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-class Publication(models.Model):
-    file1 = models.FileField(upload_to='uploads/', blank=False, null=False)
-
-
 class UploadForms(models.Model):
     FORM_CHOICES = [
         ('patent_upload', 'Patent'),
@@ -36,11 +32,14 @@ class UploadForms(models.Model):
     def all_files_approved(self):
         return self.file_uploads.filter(feedbacks__file_status='approved').count() == self.file_uploads.count()
 
+class Fileup(models.Model):
+    files = models.ManyToManyField('FileUploads', related_name='upload_files', blank=True)
+    # Other fields in your model
 
 class FileUploads(models.Model):
     # Assuming you have a model named UploadForms, adjust as needed
     upload_form = models.ForeignKey(UploadForms, on_delete=models.CASCADE, related_name='file_uploads')
-    files = models.ManyToManyField(Publication, related_name='file_uploads')
+    file = models.FileField(upload_to='uploads/', blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
