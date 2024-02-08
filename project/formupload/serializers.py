@@ -17,6 +17,24 @@ class FileUploadsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class UploadFormSerializers(serializers.ModelSerializer):
+
+    department_type = serializers.SerializerMethodField()
+    school_campus = serializers.SerializerMethodField()
+
+    def get_department_type(self, obj):
+        if obj.user:
+            user = obj.user
+            department_type = user.department_type
+            return department_type
+        return None
+    
+    def get_school_campus(self, obj):
+        if obj.user:
+            user = obj.user
+            school_campus = user.school_campus
+            return school_campus
+        return None
+
     class Meta:
         model = UploadForms
-        fields = '__all__'  # You can specify the fields to include here if needed
+        fields = ['id', 'form_type', 'invention_title', 'summary', 'authors', 'upload_status', 'uploaded_at', 'department_type', 'school_campus'] # You can specify the fields to include here if needed

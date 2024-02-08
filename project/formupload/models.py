@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from accounts.models import User
 
 class UploadForms(models.Model):
     FORM_CHOICES = [
@@ -17,7 +18,7 @@ class UploadForms(models.Model):
         ('rejected', 'Rejected'),
     ]
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     form_type = models.CharField(max_length=50, choices=FORM_CHOICES, default='patent_upload')
     invention_title = models.CharField(max_length=255, null=True)
     summary = models.TextField(max_length=300, null=True)
