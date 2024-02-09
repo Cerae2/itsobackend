@@ -4,4 +4,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('feedback/', include('feedbackstatus.urls')),
     path('uploadforms/', include('formupload.urls')),
+    path('', include('notifications.urls'))
 ]

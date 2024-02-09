@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from accounts.models import User
+from notifications.models import Notification
 
 class UploadForms(models.Model):
     FORM_CHOICES = [
@@ -32,6 +33,16 @@ class UploadForms(models.Model):
 
     def all_files_approved(self):
         return self.file_uploads.filter(feedbacks__file_status='approved').count() == self.file_uploads.count()
+    
+    def save(self, *args, **kwargs):
+        created = not self.pk
+        super().save(*args, **kwargs)
+        if created:
+            # Create notification instance when a new UploadForms instance is created
+            sender = self.user
+            receiver = sender  # For testing purposes, setting the sender as the receiver
+            message = f'A new upload form ({self.form_type}) has been created by {sender}.'
+            Notification.objects.create(sender=sender, receiver=receiver, message=message)
 
 class Fileup(models.Model):
     files = models.ManyToManyField('FileUploads', related_name='upload_files', blank=True)
@@ -41,7 +52,6 @@ class FileUploads(models.Model):
     # Assuming you have a model named UploadForms, adjust as needed
     upload_form = models.ForeignKey(UploadForms, on_delete=models.CASCADE, related_name='file_uploads')
     file = models.FileField(upload_to='uploads/', blank=False, null=False)
-    file_name = models.CharField(max_length=300, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

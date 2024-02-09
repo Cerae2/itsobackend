@@ -6,16 +6,14 @@ from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
 from rest_framework import status
 
 
+from django.contrib.auth.models import AnonymousUser
+
 class UploadFormListCreateAPIView(ListCreateAPIView):
- 
     serializer_class = UploadFormSerializers  
+
     def get_queryset(self):
-        queryset = UploadForms.objects.none()
         select_invention = self.request.GET.get('select_invention')
         is_admin = self.request.GET.get('is_admin')
-        
-
-        print('is_admin', is_admin)
 
         if select_invention is not None:
             select_invention = select_invention.lower() == 'true'
@@ -24,29 +22,23 @@ class UploadFormListCreateAPIView(ListCreateAPIView):
             is_admin = is_admin.lower() == 'true'
         
         if is_admin:
-            
-            print('select_invention', select_invention)
-            print('admin ni')
             if select_invention:
                 id = self.request.GET.get('id')
-                queryset = UploadForms.objects.filter(id=id)
-                print('select')
+                return UploadForms.objects.filter(id=id)
             else:
-                queryset = UploadForms.objects.all()
-                print('not select')
-                
+                return UploadForms.objects.all()
         else:
-            print('select_invention', select_invention)
-            print('client ni')
             if select_invention:
                 id = self.request.GET.get('id')
-                queryset = UploadForms.objects.filter(id=id)
+                return UploadForms.objects.filter(id=id)
             else:
                 user = self.request.user
-                queryset = UploadForms.objects.filter(user=user)  
-
-
-        return queryset
+                # Check if the user is authenticated before filtering based on its attributes
+                if not isinstance(user, AnonymousUser):
+                    return UploadForms.objects.filter(user=user)
+                else:
+                    # Handle the case where the user is not authenticated (AnonymousUser)
+                    return UploadForms.objects.none()
 
 class UploadFormRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = UploadForms.objects.all()
