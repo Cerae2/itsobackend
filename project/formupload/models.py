@@ -41,6 +41,7 @@ class FileUploads(models.Model):
     # Assuming you have a model named UploadForms, adjust as needed
     upload_form = models.ForeignKey(UploadForms, on_delete=models.CASCADE, related_name='file_uploads')
     file = models.FileField(upload_to='uploads/', blank=False, null=False)
+    file_name = models.CharField(max_length=300, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

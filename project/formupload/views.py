@@ -10,14 +10,41 @@ class UploadFormListCreateAPIView(ListCreateAPIView):
  
     serializer_class = UploadFormSerializers  
     def get_queryset(self):
-        user = self.request.user
         queryset = UploadForms.objects.none()
         select_invention = self.request.GET.get('select_invention')
-        if select_invention:
-            id = self.request.GET.get('id')
-            queryset = UploadForms.objects.filter(id=id)
+        is_admin = self.request.GET.get('is_admin')
+        
+
+        print('is_admin', is_admin)
+
+        if select_invention is not None:
+            select_invention = select_invention.lower() == 'true'
+        
+        if is_admin is not None:
+            is_admin = is_admin.lower() == 'true'
+        
+        if is_admin:
+            
+            print('select_invention', select_invention)
+            print('admin ni')
+            if select_invention:
+                id = self.request.GET.get('id')
+                queryset = UploadForms.objects.filter(id=id)
+                print('select')
+            else:
+                queryset = UploadForms.objects.all()
+                print('not select')
+                
         else:
-            queryset = UploadForms.objects.filter(user=user)  
+            print('select_invention', select_invention)
+            print('client ni')
+            if select_invention:
+                id = self.request.GET.get('id')
+                queryset = UploadForms.objects.filter(id=id)
+            else:
+                user = self.request.user
+                queryset = UploadForms.objects.filter(user=user)  
+
 
         return queryset
 
@@ -53,6 +80,7 @@ class FileUploadListCreateAPIView(ListCreateAPIView):
 
         for file in files:
             new_file = FileUploads.objects.create(
+                file_name=file.name,
                 file=file,
                 upload_form=upload_form_obj
             )
