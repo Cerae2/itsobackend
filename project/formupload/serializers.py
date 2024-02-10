@@ -10,7 +10,6 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 
 class FileUploadsSerializer(serializers.ModelSerializer):
-    feedbacks = FeedbackSerializer(many=True, read_only=True)
 
     class Meta:
         model = FileUploads

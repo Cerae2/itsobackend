@@ -50,12 +50,41 @@ class UploadFormListCreateAPIView(ListCreateAPIView):
 
 class UploadFormRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = UploadForms.objects.all()
-    serializer_class = UploadFormSerializers    
+    serializer_class = UploadFormSerializers 
+       
 
 
 class FeedbackListCreateAPIView(ListCreateAPIView):
-    queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer    
+
+    def get_queryset(self):   
+        upload_form = self.request.GET.get('upload_form')
+        print("upload id", upload_form)
+        upload_form_id = UploadForms.objects.get(id=upload_form)
+        queryset = Feedback.objects.filter(upload_form=upload_form_id)
+
+        return queryset
+    
+    def create(self, request, *args, **kwargs):
+        upload_form = request.data['upload_form']
+        feedback_text = request.data['feedback_text']
+        file_status = request.data['file_status']
+
+        upload_form_id = UploadForms.objects.get(id=upload_form)
+
+        new_feedback = Feedback.objects.create(
+            upload_form=upload_form_id,
+            feedback_text=feedback_text,
+            file_status=file_status
+        )
+        new_feedback.save()
+
+        existing_upload_form = UploadForms.objects.filter(id=upload_form)
+        if existing_upload_form.exists():
+            existing_upload_form.update(upload_status=file_status)
+
+        return Response({"message:", "Success"})
+
 
 class FeedbackRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Feedback.objects.all()
