@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'accounts',
     'feedbackstatus',
     'formupload',
+    'notification',
 ]
 
 REST_FRAMEWORK = {
