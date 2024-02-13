@@ -3,6 +3,7 @@ from django.urls import path, include
 from .views import CustomUserListView
 from .views import DepartmentsByCampusView
 from .views import CampusesListView
+from .views import UploadsByYearView
 
 # urlpatterns = [
 #     path('login/', obtain_auth_token, name='api_token_auth'),  # Login endpoint
@@ -16,4 +17,6 @@ urlpatterns = [
     path('userlist/<str:campus>/', CustomUserListView.as_view()),
     path('departments/by_campus/', DepartmentsByCampusView.as_view(), name='departments_by_campus'),
     path('campuses/', CampusesListView.as_view(), name='campuses_list'),
+    path('by_year/', UploadsByYearView.as_view(), name='uploads_by_year'),
+
 ]

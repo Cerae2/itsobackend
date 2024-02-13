@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import User as CustomUser
 from .serializers import CustomUserSerializer
+from formupload.models import UploadForms
 
 class CustomUserCreateView(CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -57,4 +58,29 @@ class DepartmentsByCampusView(ListAPIView):
 
 
 
+class UploadsByYearView(ListAPIView):
+    serializer_class = None  # Assuming no serialization is needed for this example
 
+    def list(self, request, *args, **kwargs):
+        # Extract the year from the query parameters
+        year = request.query_params.get('year')
+
+        if not year:
+            return Response({"error": "Year is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Convert the year to an integer to ensure it's valid
+            year = int(year)
+        except ValueError:
+            return Response({"error": "Invalid year format"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Filter uploads based on the year
+        uploads = UploadForms.objects.filter(uploaded_at__year=year)
+
+        # If you need to serialize the data, you can do so here before returning the response
+        # For example, using a custom serializer:
+        # serializer = UploadFormSerializer(uploads, many=True)
+        # return Response(serializer.data)
+
+        # Return the list of uploads in the response
+        return Response({'uploads': list(uploads.values())})
