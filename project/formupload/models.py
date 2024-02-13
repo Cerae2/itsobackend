@@ -10,7 +10,7 @@ class UploadForms(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     form_type = models.CharField(max_length=50, null=True, blank=True)
     invention_title = models.CharField(max_length=255, null=True)
-    summary = models.TextField(max_length=300, null=True)
+    summary = models.TextField(blank=True, null=True)
     authors = models.TextField(max_length=300, null=True)
     upload_status = models.CharField(max_length=50, null=True, blank=True, default='Pending')
     uploaded_at = models.DateTimeField(auto_now_add=True)
