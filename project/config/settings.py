@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'accounts',
     'formupload',
     'notification',
+    'messenger_chat',
 ]
 
 REST_FRAMEWORK = {
@@ -179,3 +180,5 @@ DJOSER = {
 
 
 AUTH_USER_MODEL = "accounts.User"
+
+LOGIN_REDIRECT_URL = '/accounts/profile/'

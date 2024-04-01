@@ -5,7 +5,7 @@ class User(AbstractUser):
     
     # Constants for user roles
     USER_ROLE_CHOICES = [
-        ('client', 'Client'),
+        ('researcher', 'Researcher'),
         ('admin', 'Admin'),
     ]
 

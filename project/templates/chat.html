@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+</head>
+<body>
+    <h1>Chat with {{ receiver.username }}</h1>
+    <div>
+        {% for message in messages %}
+            {% if message.sender == request.user %}
+                <p>You: {{ message.content }}</p>
+            {% else %}
+                <p>{{ receiver.username }}: {{ message.content }}</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <form action="{% url 'send_message' username=receiver.username %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="content" required>
+        <button type="submit">Send</button>
+    </form>
+</body>
+</html>
